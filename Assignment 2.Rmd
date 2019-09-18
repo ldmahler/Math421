@@ -103,6 +103,7 @@ female <-mean(c2015Sample$TRAV_SP[c2015Sample$SEAT_POS=="Front Seat, Left Side" 
 c(male, female)
 ```
 
+Male drivers tend to drive faster on average than female drivers by ~8mph.
 
 13. Compare the average speed of drivers who drink and those who do not. Comment on the results. **Hint:** This calculation can be done manually or by using the `aggregate` function  or `by` function in base R.  For example: 
 
