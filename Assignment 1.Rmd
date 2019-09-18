@@ -1,0 +1,360 @@
+---
+title: "Assignment 1"
+author: "Liam"
+date: "9/9/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Part 1
+## 1. Calculate the following sums.
+
+\begin{align*}
+1. S_{1} &= 1 + 2 +...+ 2019
+\end{align*}
+```{r}
+sum(c(1:2019))
+```
+
+
+\begin{align*}
+2. S_{2} &= 1^3 + 2^3 +...+ 2019^3
+\end{align*}
+```{r}
+a <- c(1:2019)
+sum(a^3)
+```
+
+
+\begin{align*}
+3. S_{3} &= 1^1+2^2+3^3+...+2019^{2019}
+\end{align*}
+```{r}
+a <- c(1:2019)
+sum(a^a)
+```
+
+
+\begin{align*}
+4. S_{4} &= 1^1-2^2+3^3-4^4+...-2018^{2018}+2019^{2019} 
+\end{align*}
+```{r}
+a <- c(1:2019)
+b <- a^a
+n <- c(1, -1)
+sum(b*n)
+```
+
+
+\begin{align*}
+5. S_{5} &= 1+1/4+1/9+1/16+1/25+...
+\end{align*}
+```{r}
+a <- c(1:999999)
+b <- a^2
+sum(a/b)
+```
+
+
+\begin{align*}
+6. S_{6} &= 1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+...
+\end{align*}
+```{r}
+a <- c(1:999999)
+sum(1/a)
+```
+
+
+\begin{align*}
+7. S_{7} &= 1+\frac{1}{8}+\frac{1}{27}+\frac{1}{64}+...
+\end{align*}
+```{r}
+a <- c(1:999999)
+sum(a/a^3)
+```
+
+
+\begin{align*}
+8. S_{8} &= 1-\frac{1}{2}+\frac{1}{3}-\frac{1}{4}+...
+\end{align*}
+```{r}
+a <- c(1:999999)
+b <- c(1,-1)
+sum(1/(a*b))
+```
+
+## 2. The rnorm function generate random variables from normal distribution. Generate a sample of 1000 values from normal distribution with the mean 10 and standard deviation 1.
+
+a. Calculate the mean and standard deviation of the sample.
+```{r}
+a <- rnorm(1000, mean=10, sd=1)
+mean(a)
+sd(a)
+```
+
+b. Out of 1000 samples, how many do you think are that great than 10? Check your estimation.
+```{r}
+a <- rnorm(1000, mean=10, sd=1)
+a <- a[a>10]
+length(a)
+```
+
+c. Use hist() function to show the histogram of the sample. 
+```{r}
+hist(rnorm(1000, mean=10, sd=1))
+```
+
+d. Estimate P(X>1) where X~N(2,1)
+```{r}
+c <- rnorm(10000, mean=2, sd=1)
+c <- c[c>1]
+length(c)/10000
+```
+
+## 3. Consider an experiment of tossing a fair dice.
+a. Use the sample (with replacement) function to generate a sample of 1000 values from the experiment.
+```{r}
+dice <- c(1:6)
+a <- sample(dice, 1000, replace=TRUE)
+```
+
+b. Calculate the mean and standard deviation of the sample.
+```{r}
+dice <- c(1:6)
+a <- sample(dice, 1000, replace=TRUE)
+mean(a)
+sd(a)
+```
+
+
+c. How many times the 6 occured?
+```{r}
+dice <- c(1:6)
+a <- sample(dice, 1000, replace=TRUE)
+a <- a[a=6]
+length(a)
+```
+
+
+d. Use table function to show the frequency of the values.
+```{r}
+dice <- c(1:6)
+a <- sample(dice, 1000, replace=TRUE)
+table(a)
+```
+
+
+e. Use prop.table(table()) to show the relative frequency of the values.
+```{r}
+prop.table(table(a))
+```
+
+
+f. Plot the frequency of the values.
+```{r}
+plot(prop.table(table(a)))
+```
+
+
+## 4. Consider an experiment of tossing a dice 3 times. Let X1 , X2, and X3 be the number of tossing each dice
+a. P(X1 > X2 + X3)
+```{r}
+x1 <- sample(dice, 1000, replace = TRUE)
+x2 <- sample(dice, 1000, replace = TRUE)
+x3 <- sample(dice, 1000, replace = TRUE)
+sum(x1>x2+x3)/1000
+```
+
+
+b. P(X1^2 > X2 + X3)
+```{r}
+x1 <- sample(dice, 1000, replace = TRUE)
+x2 <- sample(dice, 1000, replace = TRUE)
+x3 <- sample(dice, 1000, replace = TRUE)
+sum(x1^2>x2+x3)/1000
+```
+
+
+## 5. Using simulation, estimate the probability of getting three tails in a row when tossing a coin 3 times. Hint: one way is to generate a matrix with three columns where each rows is an observation of tossing a coin three times.
+```{r}
+coin <-c(1:2)
+f1 <-sample(coin, 1000, replace=TRUE)
+f2 <-sample(coin, 1000, replace=TRUE)
+f3 <-sample(coin, 1000, replace=TRUE)
+m <-data.frame(f1,f2,f3)
+j <-rowSums(m)
+sum(j==6)/1000
+```
+
+
+## 6. (Extra Credits/Optional) Using simulation, estimate the probability of getting three tails in a row when tossing a coin 10 times.
+```{r}
+
+```
+
+
+## 7. Central Limit Theorem (CLT). The CLT said that the mean of a sample of a distribution A (no matter what A is) follows normal distribution with the same mean as A. Following the below steps to confim the CLT when A is uniform distribution.
+a. Generate 100 samples of uniform distibution from 0 to 1. Each sample has 1000 observations. Use the runif function to do this.
+```{r}
+s<-100
+obs<-1000
+a <-matrix(runif(s*obs,0,1),ncol=s)
+```
+
+b. Compute the means of the 100 samples. Create vector x containing these means. Hint: You want to put all the samples in a matrix and use rowSums or colSums function.
+```{r}
+b <-rowSums(a)
+x <- b/1000
+```
+
+c. By CLT, x must follow normal distribution. Check this by plotting the histogram of x. Does it look like normal distribution? Use hist(x) to plot the histogram of x.
+```{r}
+hist(x)
+```
+
+d.Increase the number (100 and 1000) to see if the distribution of x looks more like normal distribution.
+```{r}
+s<-1000
+obs<-1000
+a <-matrix(runif(s*obs,0,1),ncol=s)
+b <-rowSums(a)
+x <- b/1000
+hist(x)
+```
+
+e.Try the same procedure with two other distributions for A.
+```{r}
+#poisson
+s<-1000
+obs<-1000
+a <-matrix(rpois(s*obs,0.5),ncol=s)
+b <-rowSums(a)
+x <- b/1000
+hist(x)
+
+#geometric
+s<-1000
+obs<-1000
+a <-matrix(rgeom(s*obs,0.5),ncol=s)
+b <-rowSums(a)
+x <- b/1000
+hist(x)
+```
+
+
+# Part 2
+## 7. Use read.csv function to read in the titanic dataset. You can find the dataset on Blackboard or at Kaggle.com. Use str function to see a summary of the data.
+```{r}
+titanic<-read.csv("C:\\Users\\student\\Desktop\\Fall2019\\R\\titanic.csv")
+str(titanic)
+```
+
+## 8. Use knitr::kable function to nicely print out the first 10 rows of the data in markdown.
+```{r}
+knitr::kable(head(titanic))
+```
+
+## 9. Use is.na function and sum function to count the total number of missing values in the data. Count the number of missing values in each columns.
+```{r}
+colSums(is.na(titanic))
+```
+
+## 10. Calculate the average Age of the passengers. You may want to use the parameter na.rm = TRUE in the function mean
+```{r}
+ageavg<-colMeans(titanic['Age'], na.rm=TRUE)
+```
+
+## 11. Replace the missing values of age by the average age calculated previously.
+```{r}
+titanic[is.na(titanic['Age']), 'Age'] <- ageavg
+knitr::kable(head(titanic))
+```
+
+## 12. Remove columns Name, PassengerID, Ticket, and Cabin.
+```{r}
+titanic <- subset(titanic, select = -c(Name,PassengerId,Ticket,Cabin))
+knitr::kable(head(titanic))
+```
+
+## 13. Calculate the mean age of female passengers
+```{r}
+mean(titanic$Age[titanic$Sex=='female'])
+```
+
+## 14. Calculate the median fare of the passengers in Class 1
+```{r}
+median(titanic$Fare[titanic$Pclass==1])
+```
+
+## 15. Calculate the median fare of the female passengers that are not in Class 1
+```{r}
+median(titanic$Fare[titanic$Pclass!=1 & titanic$Sex=='female'])
+```
+
+## 16. Calculate the median age of survived passengers who are female and Class 1 or Class 2,
+```{r}
+median(titanic$Age[(titanic$Pclass==1| titanic$Pclass==2) & titanic$Sex=='female' & titanic$Survived==1])
+```
+
+## 17. Calculate the mean fare of female teenagers survived passengers
+```{r}
+mean(titanic$Fare[titanic$Sex=='female' & titanic$Age>12 & titanic$Age<20 & titanic$Survived == 1])
+```
+
+## 18. Calculate the mean fare of female teenagers survived passengers for each class
+```{r}
+titanic2<-subset(titanic, Sex=='female' & titanic$Age>12 & titanic$Age<20 & titanic$Survived == 1)
+aggregate(titanic2[,'Fare'], list(titanic2$Pclass),mean)
+
+```
+
+## 19. Calculate the ratio of Survived and not Survived for passengers who are who pays more than the average fare
+```{r}
+avgFare<-mean(titanic$Fare)
+titanic3<-subset(titanic, Fare > avgFare)
+print("Survived")
+sum(titanic3$Survived==1)/sum(titanic3$Survived==1 | titanic3$Survived==0)
+print("Did Not Survive")
+sum(titanic3$Survived==0)/sum(titanic3$Survived==1 | titanic3$Survived==0)
+```
+
+## 20. Add column that standardizes the fare (subtract the mean and divide by standard deviation) and name it sfare
+```{r}
+sdFare<-sd(titanic$Fare)
+titanic$sfare<-(titanic$Fare-avgFare)/sdFare
+head(titanic)
+```
+
+## 21. Add categorical variable named cfare that takes value cheap for passengers paying less the average fare and takes value expensive for passengers paying more than the average fare.
+```{r}
+titanic$cfare <- ifelse(titanic$Fare < avgFare, "cheap", 'expensive')
+```
+
+## 22. Add categorical variable named cage that takes value 0 for age 0-10, 1 for age 10-20, 2 for age 20-30, and so on
+```{r}
+titanic$cage <-memisc::cases('0'=titanic$Age<10,
+                    '1'=titanic$Age<20,
+                    '2'=titanic$Age<30,
+                    '3'=titanic$Age<30,
+                    '4'=titanic$Age<40,
+                    '5'=titanic$Age<50,
+                    '6'=titanic$Age<60,
+                    '7'=titanic$Age<70,
+                    '8'=titanic$Age<80,
+                    '9'=titanic$Age<90,
+                    '10'=TRUE)
+```
+
+## 23. Show the frequency of Ports of Embarkation. It appears that there are two missing values in the Embarked variable. Assign the most frequent port to the missing ports. Hint: Use the levels function to modify the categories of categorical variables.
+```{r}
+summary(titanic$Embarked)
+titanic$Embarked[titanic$Embarked==""] <- "S"
+summary(titanic$Embarked)
+```
+
+```{r, eval= FALSE}
+rmarkdown::github_document
+```
